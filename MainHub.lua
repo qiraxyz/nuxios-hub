@@ -1,49 +1,38 @@
----
---- Created by Kerlolio.
---- DateTime: 11/11/2025 19:00
----
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-local Nxs = loadstring(game:HttpGet(
-'https://raw.githubusercontent.com/qiraxyz/nuxios-hub/refs/heads/main/packages/mainGui.lua'))()
+local Window = Rayfield:CreateWindow({
+   Name = "NuxiosHub",
+   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   LoadingTitle = "Universal Mount script",
+   LoadingSubtitle = "by Sirius",
+   ShowText = "Rayfield", -- for mobile users to unhide rayfield, change if you'd like
+   Theme = "Green", -- Check https://docs.sirius.menu/rayfield/configuration/themes
 
-local win = Nxs:Window({ title = "My Script Hub", key = "myhub_state.json" })
+   ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
 
-local mainTab = win:Tab("Main")
-local cfgTab  = win:Tab("Config")
-local about   = win:Tab("About")
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
 
--- Main
-local s1 = mainTab:Section("Core Controls")
-s1:Toggle("Auto Farm", { default = true, key = "autofarm", callback = function(on)
-    print("[Auto Farm]", on)
-end})
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "Big Hub"
+   },
 
-s1:Slider("Speed", { min=1, max=50, default=20, step=1, key="speed", callback=function(v)
-    print("Speed:", v)
-end})
+   Discord = {
+      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
 
-s1:Dropdown("Mode", { options={"Legit","Semi","Rage"}, default="Semi", key="mode", callback=function(opt)
-    print("Mode:", opt)
-end})
-
-s1:Keybind("Show/Hide UI", { default = Enum.KeyCode.RightShift, key="toggle_key", callback=function(kc)
-    print("Keybind set to", kc)
-end})
-
-s1:Button("Notify", { callback=function()
-    win:Notify("Hello!", "This is a smooth notification.", 2.5)
-end})
-
--- Config
-local s2 = cfgTab:Section("State")
-s2:TextInput("Profile Name", { placeholder="default", key="profile", callback=function(txt)
-    print("Profile:", txt)
-end})
-s2:Button("Save State", { callback = function() win:SaveState() end })
-s2:Button("Load State", { callback = function() win:LoadState() end })
-s2:Separator()
-s2:Label("Tip: State uses writefile/readfile if available; falls back to memory if not.")
-
--- About
-local s3 = about:Section("Info")
-s3:Label("SmoothHub — minimal, animated, and easy to extend.\nTabs > Sections > Controls.\nDrag window, minimize, notifications included.")
+   KeySystem = false, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "Untitled",
+      Subtitle = "Key System",
+      Note = "No method of obtaining the key is provided", -- Use this to tell the user how to get a key
+      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"Hello"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   }
+})
